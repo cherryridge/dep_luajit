@@ -54,6 +54,7 @@ jobs:
                 cd luajit\src
                 & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1" -Arch amd64
                 .\msvcbuild debug static
+                ls
                 cd ..\..
                 cp -r luajit\src\luajit.h temp\include\luajit.h
                 7z a luajit_windows_x64_debug.7z .\luajit\src\lua51.lib .\luajit\src\lua51.pdb .\temp\include VERSION.txt
