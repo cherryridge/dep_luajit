@@ -73,7 +73,6 @@ jobs:
             shell: pwsh
             run: |
                 cd luajit\src
-                "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64_arm64
                 & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1" -Arch arm64 -HostArch amd64
                 .\msvcbuild debug static
                 cd ..\..
@@ -84,7 +83,6 @@ jobs:
             shell: pwsh
             run: |
                 cd luajit\src
-                "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64_arm64
                 & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1" -Arch arm64 -HostArch amd64
                 .\msvcbuild static
                 cd ..\..
