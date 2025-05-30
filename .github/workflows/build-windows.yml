@@ -1,0 +1,99 @@
+﻿name: Build on Windows
+
+on:
+    workflow_call:
+        inputs:
+            commit-sha:
+                type: string
+                required: true
+        outputs:
+            runid:
+                description: Run ID
+                value: ${{github.run_id}}
+    workflow_dispatch:
+        inputs:
+            commit-sha:
+                type: string
+                description: Target commit of LuaJIT.
+                required: true
+
+jobs:
+    build:
+        runs-on: windows-latest
+        steps:
+
+          - name: Checkout LuaJIT
+            uses: actions/checkout@v4
+            with:
+                repository: luajit/luajit
+                path: luajit
+
+          - name: Get Additional Resources
+            shell: pwsh
+            run: |
+                echo ${{inputs.commit-sha}} >> VERSION.txt
+                mkdir temp\include
+                cp -r luajit\src\lua.h temp\include\lua.h
+                cp -r luajit\src\lauxlib.h temp\include\lauxlib.h
+                cp -r luajit\src\lualib.h temp\include\lualib.h
+                cp -r luajit\src\luaconf.h temp\include\luaconf.h
+                cp -r luajit\src\lua.hpp temp\include\lua.hpp
+
+          - name: Get MSBuild
+            uses: microsoft/setup-msbuild@v2
+
+          - name: Install ARM64 Windows SDK
+            uses: ChristopheLav/windows-sdk-install@v1
+            with:
+                version-sdk: 26100
+                features: "OptionId.DesktopCPParm64"
+
+          - name: Build & Compress Windows x64 Debug
+            shell: pwsh
+            run: |
+                cd luajit\src
+                & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1" -Arch amd64
+                .\msvcbuild debug static
+                cd ..\..
+                cp -r luajit\src\luajit.h temp\include\luajit.h
+                7z a luajit_windows_x64_debug.7z .\luajit\src\lua51.lib .\luajit\src\lua51.pdb .\temp\include VERSION.txt
+
+          - name: Build & Compress Windows x64 Release
+            shell: pwsh
+            run: |
+                cd luajit\src
+                & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1" -Arch amd64
+                .\msvcbuild static
+                cd ..\..
+                cp -r luajit\src\luajit.h temp\include\luajit.h
+                7z a luajit_windows_x64_release.7z .\luajit\src\lua51.lib .\temp\include VERSION.txt
+
+          - name: Build & Compress Windows arm64 Debug
+            shell: pwsh
+            run: |
+                cd luajit\src
+                "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64_arm64
+                & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1" -Arch arm64 -HostArch amd64
+                .\msvcbuild debug static
+                cd ..\..
+                cp -r luajit\src\luajit.h temp\include\luajit.h
+                7z a luajit_windows_arm64_debug.7z .\luajit\src\lua51.lib .\luajit\src\lua51.pdb .\temp\include VERSION.txt
+
+          - name: Build & Compress Windows arm64 Release
+            shell: pwsh
+            run: |
+                cd luajit\src
+                "C:\Program Files (x86)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64_arm64
+                & "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Launch-VsDevShell.ps1" -Arch arm64 -HostArch amd64
+                .\msvcbuild static
+                cd ..\..
+                cp -r luajit\src\luajit.h temp\include\luajit.h
+                7z a luajit_windows_arm64_release.7z .\luajit\src\lua51.lib .\temp\include VERSION.txt
+
+          - name: Upload Archive
+            uses: actions/upload-artifact@v4
+            with:
+                name: luajit_windows
+                path: |
+                    *.7z
+                retention-days: 7
