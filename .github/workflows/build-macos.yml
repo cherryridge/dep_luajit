@@ -43,7 +43,8 @@ jobs:
             shell: bash
             run: |
                 cd luajit/src
-                make clean && MACOSX_DEPLOYMENT_TARGET=11.0 && make BUILDMODE=static CCDEBUG="-g" CCOPT="-O0 -g" HOST_CC="clang -target arm64-apple-macos15" STATIC_CC="clang -target x86_64-apple-macos15" TARGET_LD="clang -target x86_64-apple-macos15" TARGET_AR="ar -r"
+                export MACOSX_DEPLOYMENT_TARGET=11.0
+                make clean && make BUILDMODE=static CCDEBUG="-g" CCOPT="-O0 -g" HOST_CC="clang -target arm64-apple-macos15" STATIC_CC="clang -target x86_64-apple-macos15" TARGET_LD="clang -target x86_64-apple-macos15" TARGET_AR="ar -r"
                 cd ../..
                 cp -a luajit/src/luajit.h temp/include/luajit.h
                 7z a luajit_macos_x64_debug.7z ./luajit/src/libluajit.a ./temp/include VERSION.txt
@@ -52,7 +53,8 @@ jobs:
             shell: bash
             run: |
                 cd luajit/src
-                make clean && MACOSX_DEPLOYMENT_TARGET=11.0 && make BUILDMODE=static HOST_CC="clang -target arm64-apple-macos15" STATIC_CC="clang -target x86_64-apple-macos15" TARGET_LD="clang -target x86_64-apple-macos15" TARGET_AR="ar -r"
+                export MACOSX_DEPLOYMENT_TARGET=11.0
+                make clean && make BUILDMODE=static HOST_CC="clang -target arm64-apple-macos15" STATIC_CC="clang -target x86_64-apple-macos15" TARGET_LD="clang -target x86_64-apple-macos15" TARGET_AR="ar -r"
                 cd ../..
                 cp -a luajit/src/luajit.h temp/include/luajit.h
                 7z a luajit_macos_x64_release.7z ./luajit/src/libluajit.a ./temp/include VERSION.txt
@@ -61,7 +63,8 @@ jobs:
             shell: bash
             run: |
                 cd luajit/src
-                make clean && MACOSX_DEPLOYMENT_TARGET=11.0 && make BUILDMODE=static CCDEBUG="-g" CCOPT="-O0 -g"
+                export MACOSX_DEPLOYMENT_TARGET=11.0
+                make clean && make BUILDMODE=static CCDEBUG="-g" CCOPT="-O0 -g"
                 cd ../..
                 cp -a luajit/src/luajit.h temp/include/luajit.h
                 7z a luajit_macos_arm64_debug.7z ./luajit/src/libluajit.a ./temp/include VERSION.txt
@@ -70,7 +73,8 @@ jobs:
             shell: bash
             run: |
                 cd luajit/src
-                make clean && MACOSX_DEPLOYMENT_TARGET=11.0 && make BUILDMODE=static
+                export MACOSX_DEPLOYMENT_TARGET=11.0
+                make clean && make BUILDMODE=static
                 cd ../..
                 cp -a luajit/src/luajit.h temp/include/luajit.h
                 7z a luajit_macos_arm64_release.7z ./luajit/src/libluajit.a ./temp/include VERSION.txt
