@@ -57,7 +57,7 @@ jobs:
                 ls
                 cd ..\..
                 cp -r luajit\src\luajit.h temp\include\luajit.h
-                7z a luajit_windows_x64_debug.7z .\luajit\src\lua51.lib .\luajit\src\lua51.pdb .\temp\include VERSION.txt
+                7z a luajit_windows_x64_debug.7z .\luajit\src\lua51.lib .\luajit\src\luajit.pdb .\temp\include VERSION.txt
 
           - name: Build & Compress Windows x64 Release
             shell: pwsh
@@ -78,7 +78,7 @@ jobs:
                 .\msvcbuild debug static
                 cd ..\..
                 cp -r luajit\src\luajit.h temp\include\luajit.h
-                7z a luajit_windows_arm64_debug.7z .\luajit\src\lua51.lib .\luajit\src\lua51.pdb .\temp\include VERSION.txt
+                7z a luajit_windows_arm64_debug.7z .\luajit\src\lua51.lib .\luajit\src\luajit.pdb .\temp\include VERSION.txt
 
           - name: Build & Compress Windows arm64 Release
             shell: pwsh
