@@ -5,7 +5,7 @@ permissions:
 
 on:
     schedule:
-        - cron: "45 11 */7 * *"
+        - cron: "0 12 */7 * *"
     workflow_dispatch:
 
 jobs:
@@ -147,4 +147,5 @@ jobs:
                 artifacts: luajit_windows/luajit_windows_x64_debug.7z, luajit_windows/luajit_windows_x64_release.7z, luajit_windows/luajit_windows_arm64_debug.7z, luajit_windows/luajit_windows_arm64_release.7z, luajit_linux/luajit_linux_x64_debug.7z, luajit_linux/luajit_linux_x64_release.7z, luajit_linux/luajit_linux_arm64_debug.7z, luajit_linux/luajit_linux_arm64_release.7z, luajit_macos/luajit_macos_x64_debug.7z, luajit_macos/luajit_macos_x64_release.7z, luajit_macos/luajit_macos_arm64_debug.7z, luajit_macos/luajit_macos_arm64_release.7z
                 commit: ${{needs.update-commit.outputs.updated_commit}}
                 tag: ${{needs.check.outputs.tag}}
+
                 body: Build for commit ${{needs.check.outputs.latest_commit}}.
