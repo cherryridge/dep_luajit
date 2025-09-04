@@ -121,7 +121,7 @@ jobs:
                 path: luajit_windows
                 github-token: ${{github.token}}
                 repository: ${{github.repository}}
-                run-id: ${{needs.build-macos.outputs.runid}}
+                run-id: ${{needs.build-windows.outputs.runid}}
 
           - name: Download Artifact luajit_linux
             uses: actions/download-artifact@v4
@@ -130,7 +130,7 @@ jobs:
                 path: luajit_linux
                 github-token: ${{github.token}}
                 repository: ${{github.repository}}
-                run-id: ${{needs.build-macos.outputs.runid}}
+                run-id: ${{needs.build-linux.outputs.runid}}
 
           - name: Download Artifact luajit_macos
             uses: actions/download-artifact@v4
@@ -149,4 +149,5 @@ jobs:
                 tag: ${{needs.check.outputs.tag}}
 
                 body: Build for commit ${{needs.check.outputs.latest_commit}}.
+
 
