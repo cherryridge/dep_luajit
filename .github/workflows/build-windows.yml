@@ -27,6 +27,7 @@ jobs:
             with:
                 repository: luajit/luajit
                 path: luajit
+                ref: v2.1
 
           - name: Get Additional Resources
             shell: pwsh
