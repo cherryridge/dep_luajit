@@ -49,6 +49,13 @@ jobs:
                 version-sdk: 26100
                 features: "OptionId.DesktopCPParm64"
 
+          - name: Patch `msvcbuild.bat` for Clang
+            shell: pwsh
+            run: |
+                cd luajit\src
+                (Get-Content msvcbuild.bat) -replace '\bcl\b', 'clang-cl' -replace '\blink\b', 'lld-link /ignore:4217' | Set-Content msvcbuild.bat
+                Get-Content msvcbuild.bat -TotalCount 30
+
           - name: Build & Compress Windows x64 Debug
             shell: pwsh
             run: |
