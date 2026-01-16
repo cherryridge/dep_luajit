@@ -53,8 +53,7 @@ jobs:
             shell: pwsh
             run: |
                 cd luajit\src
-                (Get-Content msvcbuild.bat) -replace '\bcl\b', 'clang-cl' -replace '\blink\b', 'lld-link /ignore:4217' | Set-Content msvcbuild.bat
-                Get-Content msvcbuild.bat -TotalCount 30
+                (Get-Content msvcbuild.bat) -replace '\bcl\b', 'clang-cl' -replace '\blink\b', 'lld-link /ignore:4217' -replace 'set LJLIB=lib', 'set LJLIB=llvm-lib' | Set-Content msvcbuild.bat
 
           - name: Build & Compress Windows x64 Debug
             shell: pwsh
