@@ -78,7 +78,7 @@ jobs:
             shell: bash
             run: |
                 cd luajit/src
-                make clean && make BUILDMODE=static CC="clang -target aarch64-linux-gnu" HOST_CC="clang" CROSS="" TARGET_SYS=Linux TARGET_STRIP="llvm-strip" TARGET_AR="llvm-ar rcus" CCDEBUG="-g" CCOPT="-O0 -g"
+                make clean && make BUILDMODE=static CC="clang -target aarch64-linux-gnu" HOST_CC="clang" CROSS="" TARGET_SYS=Linux TARGET_STRIP="aarch64-linux-gnu-strip" CCDEBUG="-g" CCOPT="-O0 -g"
                 cd ../..
                 cp -a luajit/src/luajit.h temp/include/luajit.h
                 7z a luajit_linux_arm64_debug.7z ./luajit/src/libluajit.a ./temp/include VERSION.txt
@@ -87,7 +87,7 @@ jobs:
             shell: bash
             run: |
                 cd luajit/src
-                make clean && make BUILDMODE=static CC="clang -target aarch64-linux-gnu" HOST_CC="clang" CROSS="" TARGET_SYS=Linux TARGET_STRIP="llvm-strip" TARGET_AR="llvm-ar rcus"
+                make clean && make BUILDMODE=static CC="clang -target aarch64-linux-gnu" HOST_CC="clang" CROSS="" TARGET_SYS=Linux TARGET_STRIP="aarch64-linux-gnu-strip"
                 cd ../..
                 cp -a luajit/src/luajit.h temp/include/luajit.h
                 7z a luajit_linux_arm64_release.7z ./luajit/src/libluajit.a ./temp/include VERSION.txt
